@@ -8,436 +8,432 @@
  */
 
 /* ==========================================================================
-   Base styles: opinionated defaults
+   Estilos personalizados para Club de Pesca 11 Rios
    ========================================================================== */
 
-html {
-  color: #222;
-  font-size: 1em;
-  line-height: 1.4;
-}
-
-/*
- * Remove text-shadow in selection highlight:
- * https://twitter.com/miketaylr/status/12228805301
- *
- * Customize the background color to match your design.
- */
-
-::-moz-selection {
-  background: #b3d4fc;
-  text-shadow: none;
-}
-
-::selection {
-  background: #b3d4fc;
-  text-shadow: none;
-}
-
-/*
- * A better looking default horizontal rule
- */
-
-hr {
-  display: block;
-  height: 1px;
-  border: 0;
-  border-top: 1px solid #ccc;
-  margin: 1em 0;
-  padding: 0;
-}
-
-/*
- * Remove the gap between audio, canvas, iframes,
- * images, videos and the bottom of their containers:
- * https://github.com/h5bp/html5-boilerplate/issues/440
- */
-
-audio,
-canvas,
-iframe,
-img,
-svg,
-video {
-  vertical-align: middle;
-}
-
-/*
- * Remove default fieldset styles.
- */
-
-fieldset {
-  border: 0;
-  margin: 0;
-  padding: 0;
-}
-
-/*
- * Allow only vertical resizing of textareas.
- */
-
-textarea {
-  resize: vertical;
-}
-
-/* ==========================================================================
-   Author's custom styles
-   ========================================================================== */
-
-/* ==========================================================================
-   Helper classes
-   ========================================================================== */
-
-/*
- * Hide visually and from screen readers
- */
-
-.hidden,
-[hidden] {
-  display: none !important;
-}
-
-/*
- * Hide only visually, but have it available for screen readers:
- * https://snook.ca/archives/html_and_css/hiding-content-for-accessibility
- *
- * 1. For long content, line feeds are not interpreted as spaces and small width
- *    causes content to wrap 1 word per line:
- *    https://medium.com/@jessebeach/beware-smushed-off-screen-accessible-text-5952a4c2cbfe
- */
-
-.visually-hidden {
-  border: 0;
-  clip: rect(0, 0, 0, 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
-  /* 1 */
-}
-
-/*
- * Extends the .visually-hidden class to allow the element
- * to be focusable when navigated to via the keyboard:
- * https://www.drupal.org/node/897638
- */
-
-.visually-hidden.focusable:active,
-.visually-hidden.focusable:focus {
-  clip: auto;
-  height: auto;
-  margin: 0;
-  overflow: visible;
-  position: static;
-  white-space: inherit;
-  width: auto;
-}
-
-/*
- * Hide visually and from screen readers, but maintain layout
- */
-
-.invisible {
-  visibility: hidden;
-}
-
-/*
- * Clearfix: contain floats
- *
- * The use of `table` rather than `block` is only necessary if using
- * `::before` to contain the top-margins of child elements.
- */
-
-.clearfix::before,
-.clearfix::after {
-  content: "";
-  display: table;
-}
-
-.clearfix::after {
-  clear: both;
-}
-
-/* ==========================================================================
-   EXAMPLE Media Queries for Responsive Design.
-   These examples override the primary ('mobile first') styles.
-   Modify as content requires.
-   ========================================================================== */
-
-@media only screen and (min-width: 35em) {
-  /* Style adjustments for viewports that meet the condition */
-}
-
-@media print,
-  (-webkit-min-device-pixel-ratio: 1.25),
-  (min-resolution: 1.25dppx),
-  (min-resolution: 120dpi) {
-  /* Style adjustments for high resolution devices */
-}
-
-/* ==========================================================================
-   Print styles.
-   Inlined to avoid the additional HTTP request:
-   https://www.phpied.com/delay-loading-your-print-css/
-   ========================================================================== */
-
-@media print {
-  *,
-  *::before,
-  *::after {
-    background: #fff !important;
-    color: #000 !important;
-    /* Black prints faster */
-    box-shadow: none !important;
-    text-shadow: none !important;
-  }
-
-  a,
-  a:visited {
-    text-decoration: underline;
-  }
-
-  a[href]::after {
-    content: " (" attr(href) ")";
-  }
-
-  abbr[title]::after {
-    content: " (" attr(title) ")";
-  }
-
-  /*
-   * Don't show links that are fragment identifiers,
-   * or use the `javascript:` pseudo protocol
-   */
-  a[href^="#"]::after,
-  a[href^="javascript:"]::after {
-    content: "";
-  }
-
-  pre {
-    white-space: pre-wrap !important;
-  }
-
-  pre,
-  blockquote {
-    border: 1px solid #999;
-    page-break-inside: avoid;
-  }
-
-  tr,
-  img {
-    page-break-inside: avoid;
-  }
-
-  p,
-  h2,
-  h3 {
-    orphans: 3;
-    widows: 3;
-  }
-
-  h2,
-  h3 {
-    page-break-after: avoid;
-  }
-}
-
-/* ==========================================================================
-   Colores personalizados del Club de Pesca
-   ========================================================================== */
-
-/* Variables CSS para colores naranjas mejorados */
+/* Variables CSS personalizadas */
 :root {
-  --naranja-principal: #ff5203;
-  --naranja-hover: #e64a02;
-  --naranja-claro: #ff6b35;
-  --naranja-oscuro: #cc4102;
-  --naranja-degradado: linear-gradient(135deg, #ff5203, #ff6b35);
-  --naranja-degradado-oscuro: linear-gradient(135deg, #cc4102, #ff5203);
+  --color-naranja: #ff5203;
+  --color-naranja-hover: #e04702;
+  --color-naranja-light: rgba(255, 82, 3, 0.1);
+  --border-radius: 0.375rem;
+  --box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  --box-shadow-hover: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
-/* Colores de fondo naranjas personalizados */
+/* ==========================================================================
+   Estilos base
+   ========================================================================== */
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+}
+
+/* ==========================================================================
+   Header y navegación
+   ========================================================================== */
+
 .bg-naranja {
-  background: var(--naranja-degradado) !important;
-  color: white !important;
+  background-color: var(--color-naranja) !important;
 }
 
-.bg-naranja-solido {
-  background-color: var(--naranja-principal) !important;
-  color: white !important;
+.header-naranja {
+  background: linear-gradient(135deg, var(--color-naranja) 0%, var(--color-naranja-hover) 100%);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Botones naranjas mejorados */
+.logo-header {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.titulo-principal {
+  color: white !important;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* ==========================================================================
+   Botones personalizados
+   ========================================================================== */
+
 .btn-naranja {
-  background: var(--naranja-degradado);
-  border: none;
+  background-color: var(--color-naranja);
+  border-color: var(--color-naranja);
   color: white;
   font-weight: 500;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(255, 107, 53, 0.3);
 }
 
-.btn-naranja:hover {
-  background: var(--naranja-degradado-oscuro);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(255, 107, 53, 0.4);
+.btn-naranja:hover,
+.btn-naranja:focus {
+  background-color: var(--color-naranja-hover);
+  border-color: var(--color-naranja-hover);
   color: white;
+  transform: translateY(-1px);
+  box-shadow: var(--box-shadow-hover);
 }
 
 .btn-outline-naranja {
-  color: var(--naranja-principal);
-  border-color: var(--naranja-principal);
-  background: transparent;
+  color: var(--color-naranja);
+  border-color: var(--color-naranja);
+  background-color: transparent;
   font-weight: 500;
   transition: all 0.3s ease;
 }
 
-.btn-outline-naranja:hover {
-  background: var(--naranja-degradado);
-  border-color: var(--naranja-principal);
+.btn-outline-naranja:hover,
+.btn-outline-naranja:focus {
+  background-color: var(--color-naranja);
+  border-color: var(--color-naranja);
   color: white;
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(255, 107, 53, 0.3);
+  box-shadow: var(--box-shadow-hover);
 }
 
-/* Texto naranja */
-.text-naranja {
-  color: var(--naranja-principal) !important;
-}
+/* ==========================================================================
+   Tarjetas (Cards)
+   ========================================================================== */
 
-/* Headers con degradado naranja */
-.header-naranja {
-  background: var(--naranja-degradado);
-  background-size: 200% 200%;
-  animation: gradientShift 6s ease infinite;
-}
-
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-/* Cards con borde naranja */
-.card-naranja {
-  border-left: 4px solid var(--naranja-principal);
-  box-shadow: 0 2px 10px rgba(255, 107, 53, 0.1);
-}
-
-/* Badges naranjas mejorados */
-.badge-naranja {
-  background: var(--naranja-degradado);
-  color: white;
-  font-weight: 500;
-}
-
-/* Efectos hover para cards */
-.card-hover-naranja {
+.card {
+  border: none;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
   transition: all 0.3s ease;
+  overflow: hidden;
 }
 
 .card-hover-naranja:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(255, 107, 53, 0.15);
+  transform: translateY(-5px);
+  box-shadow: var(--box-shadow-hover);
 }
 
-/* Podio con colores mejorados */
-.podio-oro {
-  background: linear-gradient(135deg, #ffd700, #ffed4e, #ffa000) !important;
-  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4) !important;
+.card-header.bg-naranja {
+  background: linear-gradient(135deg, var(--color-naranja) 0%, var(--color-naranja-hover) 100%);
+  border-bottom: none;
+  color: white;
 }
 
-.podio-plata {
-  background: linear-gradient(135deg, #c0c0c0, #e8e8e8, #9e9e9e) !important;
-  box-shadow: 0 4px 15px rgba(192, 192, 192, 0.4) !important;
+.card-header.bg-naranja h5,
+.card-header.bg-naranja .card-title {
+  color: white !important;
+  margin-bottom: 0;
 }
 
-.podio-bronce {
-  background: linear-gradient(135deg, #cd7f32, #deb887, #8d5524) !important;
-  box-shadow: 0 4px 15px rgba(205, 127, 50, 0.4) !important;
+/* ==========================================================================
+   Estados y badges
+   ========================================================================== */
+
+.badge {
+  font-size: 0.75em;
+  font-weight: 500;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.25rem;
 }
 
-/* Animaciones sutiles */
+.badge.bg-success {
+  background-color: #198754 !important;
+}
+
+.badge.bg-danger {
+  background-color: #dc3545 !important;
+}
+
+.badge.bg-warning {
+  background-color: #ffc107 !important;
+  color: #000 !important;
+}
+
+.badge.bg-secondary {
+  background-color: #6c757d !important;
+}
+
+/* ==========================================================================
+   Podio de ganadores
+   ========================================================================== */
+
+.podio-container {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.podio-position {
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.podio-position:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-naranja);
+}
+
+.podio-icon i {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+/* ==========================================================================
+   Tablas
+   ========================================================================== */
+
+.table {
+  background-color: white;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--box-shadow);
+}
+
+.table thead th {
+  background-color: var(--color-naranja);
+  color: white;
+  border: none;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  letter-spacing: 0.5px;
+}
+
+.table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background-color: var(--color-naranja-light);
+  transform: scale(1.01);
+}
+
+.table-warning {
+  background-color: #fff3cd !important;
+}
+
+.table-warning:hover {
+  background-color: #ffecb3 !important;
+}
+
+/* ==========================================================================
+   Modales
+   ========================================================================== */
+
+.modal-content {
+  border: none;
+  border-radius: var(--border-radius);
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+}
+
+.modal-header.bg-naranja {
+  background: linear-gradient(135deg, var(--color-naranja) 0%, var(--color-naranja-hover) 100%);
+  border-bottom: none;
+}
+
+.modal-header.bg-naranja .modal-title {
+  color: white !important;
+}
+
+.btn-close-white {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* ==========================================================================
+   Formularios
+   ========================================================================== */
+
+.form-control {
+  border-radius: var(--border-radius);
+  border: 1px solid #ced4da;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: var(--color-naranja);
+  box-shadow: 0 0 0 0.2rem rgba(255, 82, 3, 0.25);
+}
+
+.form-label {
+  font-weight: 500;
+  color: #495057;
+  margin-bottom: 0.5rem;
+}
+
+.form-select {
+  border-radius: var(--border-radius);
+  border: 1px solid #ced4da;
+  transition: all 0.3s ease;
+}
+
+.form-select:focus {
+  border-color: var(--color-naranja);
+  box-shadow: 0 0 0 0.2rem rgba(255, 82, 3, 0.25);
+}
+
+/* ==========================================================================
+   Animaciones
+   ========================================================================== */
+
 .animate-fade-in {
-  animation: fadeIn 0.5s ease-in;
+  animation: fadeIn 0.5s ease-in-out;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Mejoras en la tipografía */
-.titulo-principal {
-  font-weight: 700;
-  color: white;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-/* Responsive improvements */
-@media (max-width: 768px) {
-  .podio-position {
-    height: 80px !important;
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-
-  .btn-naranja, .btn-outline-naranja {
-    font-size: 0.9rem;
-    padding: 0.5rem 1rem;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-/* Solución para dropdown de participantes */
-.dropdown-menu {
-  z-index: 1050 !important; /* Mayor z-index que otros elementos */
-  max-height: 250px;
-  overflow-y: auto;
-  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .175) !important;
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out;
 }
 
-/* Espaciado adicional para evitar sobreposición */
-.participantes-container {
-  margin-bottom: 2rem !important;
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Asegurar que el botón finalizar tenga menor z-index */
-#btnFinalizarCompetencia {
-  position: relative;
-  z-index: 1;
+/* ==========================================================================
+   Estados especiales
+   ========================================================================== */
+
+.text-naranja {
+  color: var(--color-naranja) !important;
 }
 
-/* Logo en el header */
-.logo-header {
-  height: 50px;
-  width: auto;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease;
+.border-naranja {
+  border-color: var(--color-naranja) !important;
 }
 
-.logo-header:hover {
-  transform: scale(1.05);
+.bg-naranja-light {
+  background-color: var(--color-naranja-light) !important;
 }
 
-/* Responsive para el logo */
+/* ==========================================================================
+   Lista de participantes
+   ========================================================================== */
+
+.participantes-container .card-body {
+  padding: 1rem;
+}
+
+.participantes-container .btn {
+  font-size: 0.875rem;
+}
+
+/* ==========================================================================
+   Responsive design
+   ========================================================================== */
+
 @media (max-width: 768px) {
   .logo-header {
+    width: 40px;
     height: 40px;
   }
 
-  .navbar-brand .titulo-principal {
+  .titulo-principal {
     font-size: 1.1rem !important;
+  }
+
+  .podio-container {
+    padding: 1rem;
+  }
+
+  .podio-position {
+    margin-bottom: 1rem;
+  }
+
+  .card-hover-naranja:hover {
+    transform: none;
+  }
+
+  .table tbody tr:hover {
+    transform: none;
   }
 }
 
 @media (max-width: 576px) {
-  .logo-header {
-    height: 35px;
+  .btn-group-sm .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
   }
 
-  .navbar-brand .titulo-principal {
-    font-size: 1rem !important;
+  .modal-dialog {
+    margin: 0.5rem;
+  }
+}
+
+/* ==========================================================================
+   Utilidades adicionales
+   ========================================================================== */
+
+.shadow-naranja {
+  box-shadow: 0 0.5rem 1rem rgba(255, 82, 3, 0.15) !important;
+}
+
+.text-shadow {
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+/* Estados deshabilitados */
+.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Scrollbar personalizado para webkit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-naranja);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-naranja-hover);
+}
+
+/* ==========================================================================
+   Impresión (para PDFs)
+   ========================================================================== */
+
+@media print {
+  .btn, .modal, .navbar-toggler {
+    display: none !important;
+  }
+
+  .card {
+    box-shadow: none !important;
+    border: 1px solid #dee2e6 !important;
+  }
+
+  .bg-naranja {
+    background-color: #000 !important;
+    color: white !important;
   }
 }

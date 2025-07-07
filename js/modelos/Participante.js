@@ -1,3 +1,6 @@
+import { ValidationUtils, IDGenerator } from '../utils/helpers.js';
+import { MESSAGES } from '../config/constants.js';
+
 /**
  * Clase que representa a un participante en una competencia de pesca
  */
@@ -8,14 +11,14 @@ class Participante {
      * @param {string} apellido - Apellido del participante (opcional)
      */
     constructor(nombre, apellido = '') {
-        if (!nombre) {
-            throw new Error('El nombre del participante es obligatorio');
+        if (!ValidationUtils.isNotEmpty(nombre)) {
+            throw new Error(MESSAGES.ERRORS.NOMBRE_OBLIGATORIO);
         }
 
         this.nombre = nombre;
         this.apellido = apellido;
         this.capturas = []; // Lista de capturas, se inicializa vacía
-        this.id = this._generarId(); // Generar un ID único para el participante
+        this.id = IDGenerator.generateParticipanteId();
     }
 
     /**
@@ -31,10 +34,8 @@ class Participante {
      * @param {Captura} captura - Objeto de tipo Captura
      */
     agregarCaptura(captura) {
-        // Quitamos la validación estricta del tipo que causa problemas
-        // ya que las capturas pueden ser objetos planos al reconstruirse
         if (!captura) {
-            throw new Error('Se debe proporcionar un objeto de captura válido');
+            throw new Error(MESSAGES.ERRORS.CAPTURA_INVALIDA);
         }
         this.capturas.push(captura);
     }
@@ -70,52 +71,11 @@ class Participante {
     }
 
     /**
-     * Convierte el objeto a formato JSON para almacenamiento
-     * @returns {Object} Objeto con los datos del participante
+     * Obtiene el peso total de todas las capturas
+     * @returns {number} Peso total en gramos
      */
-    toJSON() {
-        return {
-            id: this.id,
-            nombre: this.nombre,
-            apellido: this.apellido,
-            capturas: this.capturas.map(c => {
-                // Si la captura ya es un objeto plano o ya tiene toJSON
-                if (typeof c === 'object' && c !== null) {
-                    return c.toJSON ? c.toJSON() : c;
-                }
-                return c;
-            })
-        };
-    }
-
-    /**
-     * Genera un ID único para el participante
-     * @returns {string} ID único
-     * @private
-     */
-    _generarId() {
-        return 'p_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-    }
-
-    /**
-     * Crea una instancia de Participante a partir de un objeto JSON
-     * @param {Object} data - Datos del participante en formato JSON
-     * @returns {Participante} Nueva instancia de Participante
-     */
-    static fromJSON(data) {
-        const participante = new Participante(data.nombre, data.apellido);
-        participante.id = data.id;
-
-        // Inicializamos capturas como array vacío
-        participante.capturas = [];
-
-        // Si hay capturas, las conservamos como objetos simples
-        // Esto es suficiente para la funcionalidad básica
-        if (data.capturas && Array.isArray(data.capturas)) {
-            participante.capturas = data.capturas;
-        }
-
-        return participante;
+    getPesoTotal() {
+        return this.capturas.reduce((total, captura) => total + captura.peso, 0);
     }
 
     /**
@@ -136,11 +96,54 @@ class Participante {
     actualizarCaptura(capturaId, nuevosDatos) {
         const captura = this.getCapturaPorId(capturaId);
         if (captura) {
-            if (nuevosDatos.peso) captura.peso = Number(nuevosDatos.peso);
-            if (nuevosDatos.tipoPez !== undefined) captura.tipoPez = nuevosDatos.tipoPez;
+            if (nuevosDatos.peso && ValidationUtils.isValidWeight(nuevosDatos.peso)) {
+                captura.peso = Number(nuevosDatos.peso);
+            }
+            if (nuevosDatos.tipoPez !== undefined) {
+                captura.tipoPez = nuevosDatos.tipoPez;
+            }
             return true;
         }
         return false;
+    }
+
+    /**
+     * Convierte el objeto a formato JSON para almacenamiento
+     * @returns {Object} Objeto con los datos del participante
+     */
+    toJSON() {
+        return {
+            id: this.id,
+            nombre: this.nombre,
+            apellido: this.apellido,
+            capturas: this.capturas.map(c => {
+                // Si la captura ya es un objeto plano o ya tiene toJSON
+                if (typeof c === 'object' && c !== null) {
+                    return c.toJSON ? c.toJSON() : c;
+                }
+                return c;
+            })
+        };
+    }
+
+    /**
+     * Crea una instancia de Participante a partir de un objeto JSON
+     * @param {Object} data - Datos del participante en formato JSON
+     * @returns {Participante} Nueva instancia de Participante
+     */
+    static fromJSON(data) {
+        const participante = new Participante(data.nombre, data.apellido);
+        participante.id = data.id;
+
+        // Inicializamos capturas como array vacío
+        participante.capturas = [];
+
+        // Si hay capturas, las conservamos como objetos simples
+        if (data.capturas && Array.isArray(data.capturas)) {
+            participante.capturas = data.capturas;
+        }
+
+        return participante;
     }
 }
 

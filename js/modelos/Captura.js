@@ -1,3 +1,6 @@
+import { ValidationUtils, IDGenerator } from '../utils/helpers.js';
+import { MESSAGES } from '../config/constants.js';
+
 /**
  * Clase que representa una captura de pez en una competencia
  */
@@ -8,14 +11,14 @@ class Captura {
      * @param {string} tipoPez - Tipo de pez (opcional)
      */
     constructor(peso, tipoPez = '') {
-        if (!peso || isNaN(peso) || peso <= 0) {
+        if (!ValidationUtils.isValidWeight(peso)) {
             throw new Error('El peso debe ser un número positivo');
         }
 
         this.peso = Number(peso);
         this.tipoPez = tipoPez;
         this.fecha = new Date().toISOString();
-        this.id = this._generarId();
+        this.id = IDGenerator.generateCapturaId();
     }
 
     /**
@@ -41,15 +44,6 @@ class Captura {
         captura.id = data.id;
         captura.fecha = data.fecha;
         return captura;
-    }
-
-    /**
-     * Genera un ID único para la captura
-     * @returns {string} ID único
-     * @private
-     */
-    _generarId() {
-        return 'c_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
     }
 }
 
