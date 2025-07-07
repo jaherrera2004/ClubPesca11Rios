@@ -76,4 +76,13 @@ export class DatabaseService {
   async deleteCompetencia(id) {
     return this.executeTransaction('readwrite', (store) => store.delete(id));
   }
+
+  /**
+   * Actualiza una competencia existente
+   */
+  async updateCompetencia(id, competenciaData) {
+    // Agregar el ID a los datos para asegurar que se actualice correctamente
+    competenciaData.id = id;
+    return this.executeTransaction('readwrite', (store) => store.put(competenciaData));
+  }
 }

@@ -13,6 +13,7 @@ export class CompetenciasController {
   constructor() {
     this.dbService = new DatabaseService();
     this.competenciaAEliminarId = null;
+    this.competenciaAEditarId = null;
     this.init();
   }
 
@@ -39,6 +40,12 @@ export class CompetenciasController {
     if (btnConfirmarEliminar) {
       btnConfirmarEliminar.addEventListener('click', () => this.confirmDeleteCompetencia());
     }
+
+    // Botón guardar edición
+    const btnGuardarEdicion = DOMUtils.getElementById('btnGuardarEdicion');
+    if (btnGuardarEdicion) {
+      btnGuardarEdicion.addEventListener('click', () => this.saveEditedCompetencia());
+    }
   }
 
   /**
@@ -62,7 +69,8 @@ export class CompetenciasController {
         const cardElement = CompetenciaCard.render(
           competencia,
           (id) => this.prepareDeleteCompetencia(id),
-          (id) => this.viewCompetenciaDetails(id)
+          (id) => this.viewCompetenciaDetails(id),
+          (id) => this.prepareEditCompetencia(id)
         );
 
         if (cardElement) {
@@ -202,5 +210,132 @@ export class CompetenciasController {
    */
   viewCompetenciaDetails(id) {
     window.location.href = `competenciaDetalle.html?id=${id}`;
+  }
+
+  /**
+   * Prepara la edición de una competencia
+   */
+  async prepareEditCompetencia(id) {
+    try {
+      this.competenciaAEditarId = id;
+
+      // Obtener los datos de la competencia
+      const competencia = await this.dbService.getCompetenciaById(id);
+
+      if (!competencia) {
+        NotificationService.showError('No se pudo encontrar la competencia');
+        return;
+      }
+
+      // Cargar los datos en el formulario de edición
+      this.loadCompetenciaDataToEditForm(competencia);
+
+      // Mostrar el modal de edición
+      UIService.openModal('editarCompetenciaModal');
+    } catch (error) {
+      console.error('Error preparando edición:', error);
+      NotificationService.showError('Error al cargar los datos de la competencia');
+    }
+  }
+
+  /**
+   * Carga los datos de la competencia en el formulario de edición
+   */
+  loadCompetenciaDataToEditForm(competencia) {
+    const nombreInput = DOMUtils.getElementById("editNombreCompetencia");
+    const fechaInput = DOMUtils.getElementById("editFechaCompetencia");
+    const lugarInput = DOMUtils.getElementById("editLugarCompetencia");
+    const descripcionInput = DOMUtils.getElementById("editDescripcionCompetencia");
+
+    if (nombreInput) nombreInput.value = competencia.nombre || '';
+    if (fechaInput) fechaInput.value = competencia.fecha || '';
+    if (lugarInput) lugarInput.value = competencia.lugar || '';
+    if (descripcionInput) descripcionInput.value = competencia.descripcion || '';
+  }
+
+  /**
+   * Obtiene los datos del formulario de edición
+   */
+  getEditFormData() {
+    return {
+      nombre: DOMUtils.getElementById("editNombreCompetencia")?.value?.trim() || '',
+      fecha: DOMUtils.getElementById("editFechaCompetencia")?.value || '',
+      lugar: DOMUtils.getElementById("editLugarCompetencia")?.value?.trim() || '',
+      descripcion: DOMUtils.getElementById("editDescripcionCompetencia")?.value?.trim() || ''
+    };
+  }
+
+  /**
+   * Limpia el formulario de edición
+   */
+  clearEditForm() {
+    UIService.clearForm([
+      "editNombreCompetencia",
+      "editFechaCompetencia",
+      "editLugarCompetencia",
+      "editDescripcionCompetencia"
+    ]);
+  }
+
+  /**
+   * Guarda los cambios en una competencia editada
+   */
+  async saveEditedCompetencia() {
+    if (this.competenciaAEditarId === null) return;
+
+    try {
+      const formData = this.getEditFormData();
+
+      if (!this.validateEditFormData(formData)) {
+        return;
+      }
+
+      const competenciaActual = await this.dbService.getCompetenciaById(this.competenciaAEditarId);
+
+      // Crear competencia actualizada manteniendo datos importantes como participantes
+      const competenciaActualizada = {
+        ...competenciaActual,
+        nombre: formData.nombre,
+        fecha: formData.fecha,
+        lugar: formData.lugar,
+        descripcion: formData.descripcion,
+        fechaModificacion: new Date().toISOString()
+      };
+
+      await this.dbService.updateCompetencia(this.competenciaAEditarId, competenciaActualizada);
+
+      this.competenciaAEditarId = null;
+      this.clearEditForm();
+      UIService.closeModal("editarCompetenciaModal");
+      this.loadCompetencias();
+
+      NotificationService.showSuccess('Competencia actualizada exitosamente');
+    } catch (error) {
+      console.error('Error actualizando competencia:', error);
+      NotificationService.showError('Error al actualizar la competencia');
+    }
+  }
+
+  /**
+   * Valida los datos del formulario de edición
+   */
+  validateEditFormData(data) {
+    const validation = ValidationUtils.validateRequiredFields({
+      'Nombre': data.nombre,
+      'Fecha': data.fecha,
+      'Lugar': data.lugar
+    });
+
+    if (!validation.isValid) {
+      NotificationService.showError(validation.errors.join('\n'));
+      return false;
+    }
+
+    if (!ValidationUtils.isValidDate(data.fecha)) {
+      NotificationService.showError('La fecha proporcionada no es válida');
+      return false;
+    }
+
+    return true;
   }
 }

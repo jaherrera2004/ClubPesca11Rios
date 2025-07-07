@@ -27,6 +27,7 @@ export class CompetenciaDetalleController {
     this.capturaAEliminarId = null;
     this.participanteEditandoCapturaId = null;
     this.participanteEliminandoCapturaId = null;
+    this.participanteAEditarId = null;
 
     this.init();
   }
@@ -97,6 +98,12 @@ export class CompetenciaDetalleController {
       btnGuardarParticipante.addEventListener('click', () => this.agregarParticipante());
     }
 
+    // Guardar participante editado
+    const btnGuardarParticipanteEditado = DOMUtils.getElementById('btnGuardarParticipanteEditado');
+    if (btnGuardarParticipanteEditado) {
+      btnGuardarParticipanteEditado.addEventListener('click', () => this.guardarParticipanteEditado());
+    }
+
     // Confirmar eliminación de participante
     const btnConfirmarEliminarParticipante = DOMUtils.getElementById('btnConfirmarEliminarParticipante');
     if (btnConfirmarEliminarParticipante) {
@@ -136,6 +143,18 @@ export class CompetenciaDetalleController {
       if (e.target.closest('.eliminar-participante-modal')) {
         const btn = e.target.closest('.eliminar-participante-modal');
         this.prepararEliminarParticipante(btn.getAttribute('data-id'));
+      }
+    });
+
+    // Listener dinámico para botones de editar participantes en modal
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('.editar-participante-modal')) {
+        const btn = e.target.closest('.editar-participante-modal');
+        this.prepararEdicionParticipante(
+          btn.getAttribute('data-id'),
+          btn.getAttribute('data-nombre'),
+          btn.getAttribute('data-apellido')
+        );
       }
     });
 
@@ -428,6 +447,27 @@ export class CompetenciaDetalleController {
     this.participanteAEliminarId = participanteId;
     UIService.closeModal('participantesModal');
     UIService.openModal('confirmarEliminarParticipanteModal');
+  }
+
+  /**
+   * Prepara la edición de un participante
+   */
+  prepararEdicionParticipante(participanteId, nombre, apellido) {
+    // Guardar referencia del participante a editar
+    this.participanteAEditarId = participanteId;
+
+    // Llenar el formulario con los datos actuales
+    const nombreElement = DOMUtils.getElementById('nombreParticipanteEditar');
+    const apellidoElement = DOMUtils.getElementById('apellidoParticipanteEditar');
+    const idElement = DOMUtils.getElementById('participanteIdEditar');
+
+    if (nombreElement) nombreElement.value = nombre || '';
+    if (apellidoElement) apellidoElement.value = apellido || '';
+    if (idElement) idElement.value = participanteId;
+
+    // Cerrar modal de participantes y abrir modal de edición
+    UIService.closeModal('participantesModal');
+    UIService.openModal('editarParticipanteModal');
   }
 
   /**
@@ -858,6 +898,58 @@ export class CompetenciaDetalleController {
       doc.setTextColor(...colorGris);
       doc.text(`Reporte generado el ${FormatUtils.formatDate(new Date().toISOString())} - Página ${i} de ${pageCount}`, 105, 285, { align: 'center' });
       doc.text(`${APP_CONFIG.APP_NAME} - Sistema de Gestión de Competencias`, 105, 290, { align: 'center' });
+    }
+  }
+
+  /**
+   * Guarda los cambios de un participante editado
+   */
+  async guardarParticipanteEditado() {
+    try {
+      const participanteId = DOMUtils.getElementById('participanteIdEditar')?.value;
+      const nombre = DOMUtils.getElementById('nombreParticipanteEditar')?.value?.trim();
+      const apellido = DOMUtils.getElementById('apellidoParticipanteEditar')?.value?.trim() || '';
+
+      if (!ValidationUtils.isNotEmpty(nombre)) {
+        NotificationService.showError(MESSAGES.ERRORS.NOMBRE_OBLIGATORIO);
+        return;
+      }
+
+      if (!participanteId) {
+        NotificationService.showError('No se pudo identificar el participante a editar');
+        return;
+      }
+
+      // Buscar el participante en la competencia
+      const participante = this.currentCompetencia.getParticipantePorId(participanteId);
+      if (!participante) {
+        NotificationService.showError('Participante no encontrado');
+        return;
+      }
+
+      // Actualizar los datos del participante
+      participante.nombre = nombre;
+      participante.apellido = apellido;
+
+      // Guardar en la base de datos
+      await this.dbService.saveCompetencia(this.currentCompetencia.toJSON());
+
+      // Limpiar formulario y cerrar modal
+      UIService.clearForm(['nombreParticipanteEditar', 'apellidoParticipanteEditar', 'participanteIdEditar']);
+      UIService.closeModal('editarParticipanteModal');
+
+      // Actualizar la interfaz
+      this.renderCompetencia();
+
+      // Mostrar mensaje de éxito
+      NotificationService.showSuccess('Participante actualizado correctamente');
+
+      // Limpiar referencia
+      this.participanteAEditarId = null;
+
+    } catch (error) {
+      console.error('Error editando participante:', error);
+      NotificationService.showError('Error al editar el participante');
     }
   }
 }

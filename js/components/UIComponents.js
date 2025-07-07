@@ -6,7 +6,7 @@ import { UIService } from '../services/UIService.js';
  * Componente para renderizar tarjetas de competencias
  */
 export class CompetenciaCard {
-  static render(competencia, onDelete, onViewDetails) {
+  static render(competencia, onDelete, onViewDetails, onEdit) {
     const template = document.getElementById("competenciaTemplate");
     if (!template) return null;
 
@@ -29,6 +29,12 @@ export class CompetenciaCard {
     clone.querySelector(".card").classList.add(APP_CONFIG.CSS_CLASSES.CARD_HOVER);
 
     // Crear botones
+    const btnEditar = UIService.createButton('Editar', ['btn-warning', 'flex-fill']);
+    btnEditar.addEventListener('click', (e) => {
+      e.stopPropagation();
+      onEdit(competencia.id);
+    });
+
     const btnEliminar = UIService.createButton('Eliminar', ['btn-danger', 'flex-fill']);
     btnEliminar.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -45,9 +51,16 @@ export class CompetenciaCard {
     // Configurar contenedor de botones
     const btnsContainer = clone.querySelector('.d-grid.gap-2');
     btnsContainer.classList.remove('d-grid');
-    btnsContainer.classList.add('d-flex', 'gap-2');
+    btnsContainer.classList.add('d-flex', 'flex-column', 'gap-2');
     btnsContainer.innerHTML = '';
-    btnsContainer.appendChild(btnEliminar);
+
+    // Crear fila para botones editar y eliminar
+    const actionRow = document.createElement('div');
+    actionRow.classList.add('d-flex', 'gap-2');
+    actionRow.appendChild(btnEditar);
+    actionRow.appendChild(btnEliminar);
+
+    btnsContainer.appendChild(actionRow);
     btnsContainer.appendChild(btnDetalles);
 
     return clone;
@@ -163,11 +176,20 @@ export class ParticipantesModalComponent {
               </div>
               <div class="col-md-2 text-end">
                 ${!esFinalizada ? `
-                  <button class="btn btn-outline-danger btn-sm eliminar-participante-modal"
-                          data-id="${participante.id}"
-                          title="Eliminar participante">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
+                  <div class="btn-group" role="group">
+                    <button class="btn btn-outline-primary btn-sm editar-participante-modal"
+                            data-id="${participante.id}"
+                            data-nombre="${participante.nombre}"
+                            data-apellido="${participante.apellido || ''}"
+                            title="Editar participante">
+                      <i class="fa-solid fa-edit"></i>
+                    </button>
+                    <button class="btn btn-outline-danger btn-sm eliminar-participante-modal"
+                            data-id="${participante.id}"
+                            title="Eliminar participante">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </div>
                 ` : ''}
               </div>
             </div>

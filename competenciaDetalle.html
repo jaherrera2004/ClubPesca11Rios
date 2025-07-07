@@ -202,6 +202,35 @@
     </div>
   </div>
 
+  <!-- Modal para editar participante -->
+  <div class="modal fade" id="editarParticipanteModal" tabindex="-1" aria-labelledby="editarParticipanteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-naranja">
+          <h5 class="modal-title" id="editarParticipanteModalLabel">Editar Participante</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formEditarParticipante">
+            <input type="hidden" id="participanteIdEditar">
+            <div class="mb-3">
+              <label for="nombreParticipanteEditar" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="nombreParticipanteEditar" required>
+            </div>
+            <div class="mb-3">
+              <label for="apellidoParticipanteEditar" class="form-label">Apellido (opcional)</label>
+              <input type="text" class="form-control" id="apellidoParticipanteEditar">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-naranja" id="btnGuardarParticipanteEditado">Guardar cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal para registrar captura -->
   <div class="modal fade" id="registrarCapturaModal" tabindex="-1" aria-labelledby="registrarCapturaModalLabel" aria-hidden="true">
     <div class="modal-dialog">

@@ -102,6 +102,42 @@
       </div>
     </div>
 
+    <!-- Modal para editar competencia -->
+    <div class="modal fade" id="editarCompetenciaModal" tabindex="-1" aria-labelledby="editarCompetenciaModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-naranja">
+            <h5 class="modal-title" id="editarCompetenciaModalLabel">Editar Competencia</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="editNombreCompetencia" class="form-label">Nombre de la competencia</label>
+                <input type="text" class="form-control" id="editNombreCompetencia" required>
+              </div>
+              <div class="mb-3">
+                <label for="editFechaCompetencia" class="form-label">Fecha</label>
+                <input type="date" class="form-control" id="editFechaCompetencia" required>
+              </div>
+              <div class="mb-3">
+                <label for="editLugarCompetencia" class="form-label">Lugar</label>
+                <input type="text" class="form-control" id="editLugarCompetencia" required>
+              </div>
+              <div class="mb-3">
+                <label for="editDescripcionCompetencia" class="form-label">Descripción (opcional)</label>
+                <textarea class="form-control" id="editDescripcionCompetencia" rows="3"></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-naranja" id="btnGuardarEdicion">Guardar Cambios</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Template para tarjeta de competencia -->
     <template id="competenciaTemplate">
       <div class="col">
