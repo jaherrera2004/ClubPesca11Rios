@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Detalles de Competencia - Club de Pesca</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- CSS personalizado -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="bg-naranja header-naranja py-3">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid px-0">
+          <a class="navbar-brand d-flex align-items-center" href="index.html">
+            <img src="img/logo.jpg" alt="Club de Pesca 11 Rios" class="logo-header me-3">
+            <span class="fs-4 fw-bold titulo-principal">Club de Pesca 11 Rios</span>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain"
+                  aria-controls="navbarMain" aria-expanded="false" aria-label="Alternar navegación">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container py-4">
+    <!-- Botón para volver -->
+    <div class="mb-4">
+      <a href="index.html" class="btn btn-outline-naranja">
+        <i class="fa-solid fa-arrow-left me-2"></i>Volver a competencias
+      </a>
+    </div>
+
+    <!-- Contenido principal de detalles -->
+    <div class="row">
+      <!-- Información básica de la competencia -->
+      <div class="col-lg-8">
+        <div class="card shadow-sm mb-4 card-hover-naranja">
+          <div class="card-header bg-naranja py-3">
+            <h2 class="card-title mb-0" id="nombreCompetencia">Cargando detalles...</h2>
+          </div>
+          <div class="card-body">
+            <div class="row mb-4">
+              <div class="col-md-6">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                    <div class="d-flex align-items-center">
+                      <i class="fa-solid fa-calendar-days text-naranja me-3 fs-4"></i>
+                      <div>
+                        <small class="text-muted d-block">Fecha</small>
+                        <strong id="fechaCompetencia">--/--/----</strong>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="d-flex align-items-center">
+                      <i class="fa-solid fa-location-dot text-naranja me-3 fs-4"></i>
+                      <div>
+                        <small class="text-muted d-block">Lugar</small>
+                        <strong id="lugarCompetencia">--</strong>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-md-6">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                    <div class="d-flex align-items-center">
+                      <i class="fa-solid fa-tag text-naranja me-3 fs-4"></i>
+                      <div>
+                        <small class="text-muted d-block">Estado</small>
+                        <span id="estadoCompetencia" class="badge bg-warning">Próximo</span>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <h4 class="mb-3">Descripción</h4>
+            <p id="descripcionCompetencia" class="lead">Cargando descripción...</p>
+          </div>
+        </div>
+        <div class="card-footer bg-light d-flex justify-content-between">
+          <button type="button" class="btn btn-secondary" id="btnGenerarPDF">
+            <i class="fa-solid fa-file-pdf me-2"></i>Generar Reporte PDF
+          </button>
+          <button type="button" class="btn btn-naranja" data-bs-toggle="modal" data-bs-target="#rankingModal">
+            <i class="fa-solid fa-ranking-star me-2"></i>Ver Ranking
+          </button>
+        </div>
+        <br>
+        <!-- Sección de capturas -->
+        <div class="card shadow-sm card-hover-naranja">
+          <div class="card-header bg-naranja d-flex justify-content-between align-items-center">
+            <h5 class="card-title mb-0"><i class="fa-solid fa-fish me-2"></i>Capturas</h5>
+            <button class="btn btn-success shadow-sm" data-bs-toggle="modal" data-bs-target="#registrarCapturaModal">
+              <i class="fa-solid fa-plus me-2"></i>Registrar Captura
+            </button>
+          </div>
+          <div class="card-body p-0">
+            <!-- Tabla de capturas con botones de edición y eliminación -->
+            <table class="table table-hover mb-0">
+              <thead>
+                <tr>
+                  <th>Participante</th>
+                  <th>Tipo de pez</th>
+                  <th>Peso</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tablaCapturas">
+                <tr>
+                  <td colspan="4" class="text-center py-3 text-muted">No hay capturas registradas</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar con información adicional -->
+      <div class="col-lg-4">
+        <!-- Participantes -->
+        <div class="card shadow-sm mb-4 card-hover-naranja participantes-container">
+          <div class="card-header bg-naranja">
+            <h5 class="card-title mb-0"><i class="fa-solid fa-users me-2"></i>Participantes</h5>
+          </div>
+          <div class="card-body p-0">
+            <div class="d-flex justify-content-between p-3">
+              <span>Inscritos</span>
+              <strong id="inscriptosCount">18</strong>
+            </div>
+            <div class="px-3 pb-3">
+              <!-- Botón para ver participantes que abre el modal -->
+              <button class="btn btn-outline-naranja w-100" type="button" data-bs-toggle="modal" data-bs-target="#participantesModal">
+                <i class="fa-solid fa-users me-2"></i>Ver participantes
+              </button>
+            </div>
+          </div>
+          <div class="card-footer bg-light">
+            <div class="d-grid">
+              <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#inscribirParticipanteModal">
+                <i class="fa-solid fa-user-plus me-2"></i>Inscribir Participante
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botón para finalizar competencia -->
+        <div class="card shadow-sm">
+          <div class="card-body p-3">
+            <div class="d-grid">
+              <button id="btnFinalizarCompetencia" class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#finalizarCompetenciaModal">
+                <i class="fa-solid fa-flag-checkered me-2"></i>Finalizar Competencia
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-dark text-white py-3 mt-5">
+    <div class="container text-center">
+      <p>&copy; 2025 Club de Pesca 11 Rios. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Modal para inscribir participante -->
+  <div class="modal fade" id="inscribirParticipanteModal" tabindex="-1" aria-labelledby="inscribirParticipanteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-naranja">
+          <h5 class="modal-title" id="inscribirParticipanteModalLabel">Inscribir Participante</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formInscripcion">
+            <div class="mb-3">
+              <label for="nombreParticipante" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="nombreParticipante" required>
+            </div>
+            <div class="mb-3">
+              <label for="apellidoParticipante" class="form-label">Apellido (opcional)</label>
+              <input type="text" class="form-control" id="apellidoParticipante">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-naranja" id="btnGuardarParticipante">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para registrar captura -->
+  <div class="modal fade" id="registrarCapturaModal" tabindex="-1" aria-labelledby="registrarCapturaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-naranja">
+          <h5 class="modal-title" id="registrarCapturaModalLabel">Registrar Captura</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formCaptura">
+            <div class="mb-3">
+              <label for="participanteCaptura" class="form-label">Participante</label>
+              <select class="form-select" id="participanteCaptura" required>
+                <option value="" selected disabled>Seleccionar participante</option>
+                <!-- Las opciones se cargarán dinámicamente con JavaScript -->
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="tipoPez" class="form-label">Tipo de pez (opcional)</label>
+              <input type="text" class="form-control" id="tipoPez" placeholder="Ej: Dorado, Surubí, Boga...">
+            </div>
+            <div class="mb-3">
+              <label for="pesoCaptura" class="form-label">Peso (gramos)</label>
+              <input type="number" class="form-control" id="pesoCaptura" min="1" step="1" required>
+              <div class="form-text">Ingrese el peso en gramos (números enteros)</div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-naranja" id="btnGuardarCaptura">Registrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para mostrar ranking -->
+  <div class="modal fade" id="rankingModal" tabindex="-1" aria-labelledby="rankingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header bg-naranja">
+          <h5 class="modal-title" id="rankingModalLabel">
+            <i class="fa-solid fa-ranking-star me-2"></i>Ranking de Participantes
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- El podio se insertará aquí dinámicamente -->
+
+          <!-- Tabla para participantes del 4to lugar en adelante -->
+          <div id="tablaRankingContainer">
+            <h5 class="mt-4 mb-3 text-center">
+              <i class="fa-solid fa-list-ol me-2"></i>Clasificación General
+            </h5>
+            <table class="table table-striped">
+              <thead class="table-dark">
+                <tr>
+                  <th>Posición</th>
+                  <th>Participante</th>
+                  <th>Peso Total (g)</th>
+                </tr>
+              </thead>
+              <tbody id="tablaRanking">
+                <!-- Las filas se cargarán dinámicamente con JavaScript -->
+                <tr>
+                  <td colspan="3" class="text-center py-3 text-muted">No hay datos de ranking disponibles</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para confirmar finalización de competencia -->
+  <div class="modal fade" id="finalizarCompetenciaModal" tabindex="-1" aria-labelledby="finalizarCompetenciaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title" id="finalizarCompetenciaModalLabel">Confirmar Finalización</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>¿Estás seguro de que deseas finalizar la competencia? Esta acción no se puede deshacer.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" id="btnConfirmarFinalizar">Finalizar Competencia</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de confirmación para eliminar participante -->
+  <div class="modal fade" id="confirmarEliminarParticipanteModal" tabindex="-1" aria-labelledby="confirmarEliminarParticipanteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title" id="confirmarEliminarParticipanteModalLabel">Eliminar participante</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          ¿Estás seguro de que deseas eliminar este participante? Esta acción no se puede deshacer.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" id="btnConfirmarEliminarParticipante">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para editar captura -->
+  <div class="modal fade" id="editarCapturaModal" tabindex="-1" aria-labelledby="editarCapturaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-naranja">
+          <h5 class="modal-title" id="editarCapturaModalLabel">Editar Captura</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formEditarCaptura">
+            <input type="hidden" id="capturaIdEditar">
+            <input type="hidden" id="participanteIdEditar">
+            <div class="mb-3">
+              <label for="participanteCapturaEditar" class="form-label">Participante</label>
+              <input type="text" class="form-control" id="participanteCapturaEditar" disabled>
+            </div>
+            <div class="mb-3">
+              <label for="tipoPezEditar" class="form-label">Tipo de pez (opcional)</label>
+              <input type="text" class="form-control" id="tipoPezEditar" placeholder="Ej: Dorado, Surubí, Boga...">
+            </div>
+            <div class="mb-3">
+              <label for="pesoCapturaEditar" class="form-label">Peso (gramos)</label>
+              <input type="number" class="form-control" id="pesoCapturaEditar" min="1" step="1" required>
+              <div class="form-text">Ingrese el peso en gramos (números enteros)</div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-naranja" id="btnGuardarCapturaEditada">Guardar cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de confirmación para eliminar captura -->
+  <div class="modal fade" id="confirmarEliminarCapturaModal" tabindex="-1" aria-labelledby="confirmarEliminarCapturaModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title" id="confirmarEliminarCapturaModalLabel">Eliminar captura</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          ¿Estás seguro de que deseas eliminar esta captura? Esta acción no se puede deshacer.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" id="btnConfirmarEliminarCaptura">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para gestionar participantes -->
+  <div class="modal fade" id="participantesModal" tabindex="-1" aria-labelledby="participantesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-naranja">
+          <h5 class="modal-title" id="participantesModalLabel">
+            <i class="fa-solid fa-users me-2"></i>Gestión de Participantes
+          </h5>
+        </div>
+        <div class="modal-body">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="mb-0">Lista de Participantes Inscritos</h6>
+          </div>
+
+          <!-- Lista de participantes con información detallada -->
+          <div id="listaParticipantesModal">
+            <!-- Se llenará dinámicamente -->
+            <div class="text-center py-4 text-muted">
+              <i class="fa-solid fa-users fs-1 mb-3"></i>
+              <p>No hay participantes inscritos</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS Bundle con Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- jsPDF para generar PDFs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- jsPDF AutoTable para tablas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+  <!-- Chart.js para gráficas -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module" src="js/competenciaDetalle.js"></script>
+</body>
+</html>

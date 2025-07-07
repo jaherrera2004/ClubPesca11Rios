@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Club de Pesca - Seguimiento de Competencias</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Iconos de Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <!-- CSS personalizado -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+  <header class="bg-naranja header-naranja py-3">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid px-0">
+          <a class="navbar-brand d-flex align-items-center" href="#">
+            <img src="img/logo.jpg" alt="Club de Pesca 11 Rios" class="logo-header me-3">
+            <span class="fs-4 fw-bold titulo-principal">Club de Pesca 11 Rios</span>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain"
+                  aria-controls="navbarMain" aria-expanded="false" aria-label="Alternar navegación">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+      </nav>
+      <div class="text-center mt-3">
+        <h2 class="display-5 fw-bold titulo-principal">Seguimiento de Competencias</h2>
+        <p class="lead" style="color: rgba(255,255,255,0.9);">Sistema de gestión y seguimiento para torneos de pesca deportiva</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h3>Competencias Programadas</h3>
+      <button type="button" class="btn btn-naranja animate-fade-in" data-bs-toggle="modal" data-bs-target="#nuevaCompetenciaModal">
+        <i class="bi bi-plus-circle me-2"></i>Agregar Competencia
+      </button>
+    </div>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4" id="competenciasContainer">
+      <!-- Las tarjetas de competencia se cargarán dinámicamente -->
+    </div>
+
+    <!-- Modal para agregar nueva competencia -->
+    <div class="modal fade" id="nuevaCompetenciaModal" tabindex="-1" aria-labelledby="nuevaCompetenciaModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-naranja">
+            <h5 class="modal-title" id="nuevaCompetenciaModalLabel">Agregar Nueva Competencia</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="nombreCompetencia" class="form-label">Nombre de la competencia</label>
+                <input type="text" class="form-control" id="nombreCompetencia" required>
+              </div>
+              <div class="mb-3">
+                <label for="fechaCompetencia" class="form-label">Fecha</label>
+                <input type="date" class="form-control" id="fechaCompetencia" required>
+              </div>
+              <div class="mb-3">
+                <label for="lugarCompetencia" class="form-label">Lugar</label>
+                <input type="text" class="form-control" id="lugarCompetencia" required>
+              </div>
+              <div class="mb-3">
+                <label for="descripcionCompetencia" class="form-label">Descripción (opcional)</label>
+                <textarea class="form-control" id="descripcionCompetencia" rows="3"></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-naranja">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de confirmación para eliminar competencia -->
+    <div class="modal fade" id="confirmarEliminarModal" tabindex="-1" aria-labelledby="confirmarEliminarModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-danger text-white">
+            <h5 class="modal-title" id="confirmarEliminarModalLabel">Eliminar competencia</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            ¿Estás seguro de que deseas eliminar esta competencia? Esta acción no se puede deshacer.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-danger" id="btnConfirmarEliminar">Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Template para tarjeta de competencia -->
+    <template id="competenciaTemplate">
+      <div class="col">
+        <div class="card h-100 border-primary shadow-sm">
+          <div class="card-header text-white">
+            <h5 class="card-title mb-0 text-truncate"></h5>
+          </div>
+          <div class="card-body">
+            <ul class="list-group list-group-flush mb-3">
+              <li class="list-group-item d-flex justify-content-between flex-wrap">
+                <span><i class="bi bi-calendar-event me-2"></i>Fecha:</span>
+                <strong class="fecha-competencia"></strong>
+              </li>
+              <li class="list-group-item d-flex justify-content-between flex-wrap">
+                <span><i class="bi bi-geo-alt me-2"></i>Lugar:</span>
+                <strong class="lugar-competencia text-truncate"></strong>
+              </li>
+              <li class="list-group-item d-flex justify-content-between flex-wrap">
+                <span><i class="bi bi-trophy me-2"></i>Estado:</span>
+                <span class="estado-competencia badge"></span>
+              </li>
+            </ul>
+            <div class="d-grid gap-2">
+              <a href="#" class="btn btn-ver-detalles">Ver detalles</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+  </main>
+
+  <footer class="bg-dark text-white py-3 mt-auto">
+    <div class="container text-center">
+      <p>&copy; 2025 Club de Pesca 11 Rios. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
